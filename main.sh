@@ -40,8 +40,8 @@ update_student() {
   fi
 
   # Extract details and prompt for updates
-  read -p "Update Email (current: $$(echo "$student_line" | cut -d ',' -f2))? " new_email
-  read -p "Update Age (current: $$(echo "$student_line" | cut -d ',' -f3))? " new_age
+  read -p "Update Email:" new_email
+  read -p "Update Age:" new_age
 
   # Update data in the record line
   updated_line="${update_id},${new_email:-$(echo "$student_line" | cut -d ',' -f2)},${new_age:-$(echo "$student_line" | cut -d ',' -f3)}"
