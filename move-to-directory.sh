@@ -6,28 +6,57 @@ move_to_directory() {
   read -p "Enter Student ID (Negpod 4): " student_id
 
   # Construct directory name
-  directory="negpod_4-${student_id}-q1"
+  student_record_dir="negpod_4-${student_id}-q1"  # Replace with desired naming convention
 
   # Create directory if it doesn't exist
-  mkdir -p "$directory"
+  mkdir -p "$student_record_dir" || {
+    echo "Error: Could not create directory '$student_record_dir'."
+    return 1  # Exit function with error code
+  }
 
-  # Move files to the directory
-  mv Neggood\ id-gl backup-Negpod_4.sh students-list.txt select-emails.txt "$directory"
+  # List of student record files (modify as needed)
+  files_to_move=(
+    "Negpod id-gl"
+    "backup-Negpod_ID.sh"
+    "students-list.txt"
+    "select-emails.txt"
+  )
 
-  echo "Files moved to directory: $directory"
+  # Move files with error handling
+  for filename in "${files_to_move[@]}"; do
+    if [[ ! -f "$filename" ]]; then
+      #echo "Warning: File '$filename' not found. Skipping..."
+      continue
+    fi
+
+    mv "$filename" "$student_record_dir" || {
+      echo "Error: Could not move '$filename' to directory '$student_record_dir'."
+      return 1  # Exit function with error code
+    }
+  done
+
+  echo "Files moved successfully to directory: $student_record_dir"
 }
 
-# Main menu
-while true; do
-  echo "Student Record Management System"
-  echo "1. Move Files to Directory"
-  echo "2. Exit"
-  read -p "Enter your choice: " choice
+# Main function for script execution
+main() {
+  # Display a welcome message
+  echo "Welcome to the Student Record File Mover!"
 
-  case $choice in
-    1) move_to_directory ;;
-    2) exit ;;
-    *) echo "Invalid choice!" ;;
-  esac
-done
+  # Call the move_to_directory function
+  move_to_directory
 
+  # Display a completion message
+  echo "File move process completed."
+}
+
+# Execute the main function
+main
+
+# Optional: Add functionality for taking arguments (Negpod ID)
+# if [[ $# -eq 1 ]]; then
+#   student_id="$1"
+#   move_to_directory "$student_id"
+# else
+#   echo "Usage: $0 <Negpod ID>"
+# fi

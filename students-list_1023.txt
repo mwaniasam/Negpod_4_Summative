@@ -77,3 +77,4 @@ while true; do
         *) echo "Invalid option, please try again." ;;
     esac
 done
+1234,Rabbit@gmail.com,20
